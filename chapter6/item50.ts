@@ -23,3 +23,24 @@ function doubleByGeneric(x: any) {
 
 // 하지만 이 경우는 너무 구체적이다.
 // 'x'를 매개변수로 넘길 경우 'xx'가 나오는데, string을 넘기면 string이 나와야 합니다.
+
+// 다른 방법은 여러 가지 타입 선언으로 분리하기이다.
+
+function doubleFor(x: number): number;
+function doubleFor(x: string): string;
+function doubleFor(x: any) {
+  return x + x;
+}
+
+// 하나씩 순차적으로 검색하여 해당 함수의 타입을 검사한다. 그래서 마지막 string 타입의 반환값으로 할당된다.
+
+// 여기서 부족한 부분을 채우기 위해 조건부 타입을 이용하는 것이 좋다.
+
+function double2<T extends string | number>(
+  x: T
+): T extends string ? string : number;
+function double2(x: any) {
+  return x + x;
+}
+
+// 오버로딩 타입보다 조건부 타입을 사용하는 것이 좋다.
